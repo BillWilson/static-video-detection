@@ -42,11 +42,13 @@ if ($videoId){
     for($i = 1; $i <= 3; $i++) {
 
         $thumbnailUrl =  "http://i.ytimg.com/vi/" . $videoId . "/" . $i . ".jpg";
+
         $fileName = $i . ".jpg";
+
         downloadFile($thumbnailUrl, $fileName);
     }
 
-    $distance = check();
+    list($distance, $hashs) = check();
 
 }else{
 
@@ -79,19 +81,25 @@ function check()
 
     $implementation = new DifferenceHash;
 
-    $hasher = new ImageHash;
+    $hasher = new ImageHash($implementation);
 
     $imagePath = __DIR__ . '/' . $imageFolderName . '/';
 
     $hash = $hasher->hash( __DIR__ . '/images/1.jpg');
 
-    $distance['12'] = $hasher->compare($imagePath . '1.jpg', $imagePath . '2.jpg');
+    $distance = [
+        12=> $hasher->compare($imagePath . '1.jpg', $imagePath . '2.jpg'),
+        13=> $hasher->compare($imagePath . '1.jpg', $imagePath . '3.jpg'),
+        23=> $hasher->compare($imagePath . '2.jpg', $imagePath . '3.jpg'),
+    ];
 
-    $distance['13'] = $hasher->compare($imagePath . '1.jpg', $imagePath . '3.jpg');
+    $hashs =[
+        1 => $hasher->hash( __DIR__ . '/images/1.jpg'),
+        2 => $hasher->hash( __DIR__ . '/images/2.jpg'),
+        3 => $hasher->hash( __DIR__ . '/images/3.jpg'),
+    ];
 
-    $distance['23'] = $hasher->compare($imagePath . '2.jpg', $imagePath . '3.jpg');
-
-    return $distance;
+    return [$distance,$hashs];
 }
 
 function getVideoId($url)
@@ -141,9 +149,12 @@ if ($error){
     }
 
     echo '<br>';
+    echo 'Img1:　' . $hashs[1] . '<br>';
+    echo 'Img2:　' . $hashs[2] . '<br>';
+    echo 'Img3:　' . $hashs[3] . '<br><br>';
     echo '1->2:　'. $distance['12'] . '<br>';
     echo '1->3:　'. $distance['13'] . '<br>';
-    echo '2->3:　'. $distance['23'] . '<br>';
+    echo '2->3:　'. $distance['23'] . '<br><br>';
     printf('Standard Deviation: %.2F<br>', standardDeviation($distance));
     printf('Mean:  %.2F', mean($distance));
 }
