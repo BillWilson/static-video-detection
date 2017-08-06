@@ -94,12 +94,34 @@ function check()
     return $distance;
 }
 
-function getVideoId($url) {
+function getVideoId($url)
+{
 
     parse_str( parse_url( $url, PHP_URL_QUERY ), $queryParams );
 
     return $queryParams['v'];
 }
+
+function standardDeviation($array)
+{
+    $mean = mean($array);
+
+    $differenceSum = 0;
+
+    foreach($array as $val) {
+
+        $differenceSum += pow($val - $mean, 2);
+
+    }
+
+    return sqrt($differenceSum / count($array));
+}
+
+function mean($array)
+{
+    return array_sum($array) / count($array);
+}
+
 ?>
 
 <form action="/" method="get">
@@ -118,9 +140,12 @@ if ($error){
         echo '<img src="images/'. $i . '.jpg " style="padding-right: 10px;">';
     }
 
-    echo '<p>1->2:  '. $distance['12'] . '</p>';
-    echo '<p>1->3:  '. $distance['13'] . '</p>';
-    echo '<p>2->3:  '. $distance['23'] . '</p>';
+    echo '<br>';
+    echo '1->2:　'. $distance['12'] . '<br>';
+    echo '1->3:　'. $distance['13'] . '<br>';
+    echo '2->3:　'. $distance['23'] . '<br>';
+    printf('Standard Deviation: %.2F<br>', standardDeviation($distance));
+    printf('Mean:  %.2F', mean($distance));
 }
 
 ?>
