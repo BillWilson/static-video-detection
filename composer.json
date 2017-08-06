@@ -1,0 +1,6 @@
+{
+    "require": {
+        "jenssegers/imagehash": "^0.4.2",
+        "guzzlehttp/guzzle": "^6.3"
+    }
+}
