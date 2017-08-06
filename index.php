@@ -148,10 +148,11 @@ if ($error){
         echo '<img src="images/'. $i . '.jpg " style="padding-right: 10px;">';
     }
 
-    echo '<br>';
+    echo '<br><h2>Hash</h2>';
     echo 'Img1:　' . $hashs[1] . '<br>';
     echo 'Img2:　' . $hashs[2] . '<br>';
     echo 'Img3:　' . $hashs[3] . '<br><br>';
+    echo '<h2>Hamming distance</h2>';
     echo '1->2:　'. $distance['12'] . '<br>';
     echo '1->3:　'. $distance['13'] . '<br>';
     echo '2->3:　'. $distance['23'] . '<br><br>';
